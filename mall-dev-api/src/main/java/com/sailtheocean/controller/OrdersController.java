@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-// import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,8 +34,8 @@ public class OrdersController extends BaseController {
     @Autowired
     private OrderService orderService;
 
-//    @Autowired
-//    private RestTemplate restTemplate;
+    @Autowired
+    private RestTemplate restTemplate;
 
     @ApiOperation(value = "Create order", notes = "Create order", httpMethod = "POST")
     @PostMapping("/create")
@@ -63,31 +63,29 @@ public class OrdersController extends BaseController {
         // TODO 整合redis之后，完善购物车中的已结算商品清除，并且同步到前端的cookie
         // CookieUtils.setCookie(request, response, MALL_SHOPCART, "", true);
 
-//        // 3. 向支付中心发送当前订单，用于保存支付中心的订单数据
-//        MerchantOrdersVO merchantOrdersVO = orderVO.getMerchantOrdersVO();
-//        merchantOrdersVO.setReturnUrl(payReturnUrl);
-//
-//        // 为了方便测试购买，所以所有的支付金额都统一改为1分钱
-//        merchantOrdersVO.setAmount(1);
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.add("imoocUserId","imooc");
-//        headers.add("password","imooc");
-//
-//        HttpEntity<MerchantOrdersVO> entity =
-//                new HttpEntity<>(merchantOrdersVO, headers);
-//
-//        ResponseEntity<JSONResult> responseEntity =
-//                restTemplate.postForEntity(paymentUrl,
-//                        entity,
-//                        JSONResult.class);
-//        JSONResult paymentResult = responseEntity.getBody();
-//        if (paymentResult.getStatus() != 200) {
-//            logger.error("发送错误：{}", paymentResult.getMsg());
-//            return JSONResult.errorMsg("支付中心订单创建失败，请联系管理员！");
-//        }
-//
+        // 3. 向支付中心发送当前订单，用于保存支付中心的订单数据
+        MerchantOrdersVO merchantOrdersVO = orderVO.getMerchantOrdersVO();
+        merchantOrdersVO.setReturnUrl(payReturnUrl);
+
+        // 为了方便测试购买，所以所有的支付金额都统一改为1分钱
+        merchantOrdersVO.setAmount(1);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("imoocUserId","imooc");
+        headers.add("password","imooc");
+
+        HttpEntity<MerchantOrdersVO> entity = new HttpEntity<>(merchantOrdersVO, headers);
+
+        ResponseEntity<JSONResult> responseEntity = restTemplate.postForEntity(paymentUrl,
+                        entity,
+                        JSONResult.class);
+        JSONResult paymentResult = responseEntity.getBody();
+        if (paymentResult.getStatus() != 200) {
+            logger.error("发送错误：{}", paymentResult.getMsg());
+            return JSONResult.errorMsg("支付中心订单创建失败，请联系管理员！");
+        }
+
         return JSONResult.ok(orderId);
     }
 
