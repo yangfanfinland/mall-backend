@@ -29,7 +29,7 @@ public class AddressController {
     @Autowired
     private AddressService addressService;
 
-    @ApiOperation(value = "根据用户id查询收货地址列表", notes = "根据用户id查询收货地址列表", httpMethod = "POST")
+    @ApiOperation(value = "Get delivery address list base on user id", notes = "Get delivery address list base on user id", httpMethod = "POST")
     @PostMapping("/list")
     public JSONResult list(
             @RequestParam String userId) {
@@ -42,7 +42,7 @@ public class AddressController {
         return JSONResult.ok(list);
     }
 
-    @ApiOperation(value = "用户新增地址", notes = "用户新增地址", httpMethod = "POST")
+    @ApiOperation(value = "Add new delivery address", notes = "Add new delivery address", httpMethod = "POST")
     @PostMapping("/add")
     public JSONResult add(@RequestBody AddressBO addressBO) {
 
@@ -58,7 +58,7 @@ public class AddressController {
     private JSONResult checkAddress(AddressBO addressBO) {
         String receiver = addressBO.getReceiver();
         if (StringUtils.isBlank(receiver)) {
-            return JSONResult.errorMsg("收货人不能为空");
+            return JSONResult.errorMsg("Receiver cannot be empty");
         }
         if (receiver.length() > 12) {
             return JSONResult.errorMsg("收货人姓名不能太长");
@@ -84,18 +84,18 @@ public class AddressController {
                 StringUtils.isBlank(city) ||
                 StringUtils.isBlank(district) ||
                 StringUtils.isBlank(detail)) {
-            return JSONResult.errorMsg("收货地址信息不能为空");
+            return JSONResult.errorMsg("Receive address cannot be empty");
         }
 
         return JSONResult.ok();
     }
 
-    @ApiOperation(value = "用户修改地址", notes = "用户修改地址", httpMethod = "POST")
+    @ApiOperation(value = "Modify delivery address", notes = "Modify delivery address", httpMethod = "POST")
     @PostMapping("/update")
     public JSONResult update(@RequestBody AddressBO addressBO) {
 
         if (StringUtils.isBlank(addressBO.getAddressId())) {
-            return JSONResult.errorMsg("修改地址错误：addressId不能为空");
+            return JSONResult.errorMsg("Modify address failed：addressId cannot be empty");
         }
 
         JSONResult checkRes = checkAddress(addressBO);
@@ -108,7 +108,7 @@ public class AddressController {
         return JSONResult.ok();
     }
 
-    @ApiOperation(value = "用户删除地址", notes = "用户删除地址", httpMethod = "POST")
+    @ApiOperation(value = "Delete delivery address", notes = "Delete delivery address", httpMethod = "POST")
     @PostMapping("/delete")
     public JSONResult delete(
             @RequestParam String userId,
@@ -122,7 +122,7 @@ public class AddressController {
         return JSONResult.ok();
     }
 
-    @ApiOperation(value = "用户设置默认地址", notes = "用户设置默认地址", httpMethod = "POST")
+    @ApiOperation(value = "Set default delivery address", notes = "Set default delivery address", httpMethod = "POST")
     @PostMapping("/setDefalut")
     public JSONResult setDefalut(
             @RequestParam String userId,
