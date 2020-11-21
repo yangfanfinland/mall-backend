@@ -2,7 +2,6 @@ package com.sailtheocean.service.impl;
 
 import com.sailtheocean.mapper.CategoryMapper;
 import com.sailtheocean.mapper.CategoryMapperCustom;
-import com.sailtheocean.pojo.Carousel;
 import com.sailtheocean.pojo.Category;
 import com.sailtheocean.pojo.vo.CategoryVO;
 import com.sailtheocean.pojo.vo.NewItemsVO;

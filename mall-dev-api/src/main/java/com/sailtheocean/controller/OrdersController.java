@@ -7,7 +7,6 @@ import com.sailtheocean.pojo.bo.SubmitOrderBO;
 import com.sailtheocean.pojo.vo.MerchantOrdersVO;
 import com.sailtheocean.pojo.vo.OrderVO;
 import com.sailtheocean.service.OrderService;
-import com.sailtheocean.utils.CookieUtils;
 import com.sailtheocean.utils.JSONResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
