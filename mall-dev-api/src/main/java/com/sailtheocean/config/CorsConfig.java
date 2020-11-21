@@ -17,6 +17,7 @@ public class CorsConfig {
         // Add cors configuration
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOrigin("http://localhost:8080");
+        // config.addAllowedOrigin("*");
         // Set send cookie info or not
         config.setAllowCredentials(true);
         // Set allowed request method
