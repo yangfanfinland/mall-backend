@@ -1,6 +1,7 @@
 package com.sailtheocean.controller;
 
 import com.sailtheocean.pojo.Orders;
+import com.sailtheocean.service.center.MyOrdersService;
 import com.sailtheocean.utils.JSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,7 @@ import java.io.File;
 public class BaseController {
 
     public static final String MALL_SHOPCART = "shopcart";
-    public static final Integer COMMENT_PAGE_SIZE = 10;
+    public static final Integer COMMON_PAGE_SIZE = 10;
     public static final Integer PAGE_SIZE = 20;
 
     // 支付中心的调用地址
@@ -29,4 +30,19 @@ public class BaseController {
             File.separator + "foodie" +
             File.separator + "faces";
 //    public static final String IMAGE_USER_FACE_LOCATION = "/workspaces/images/foodie/faces";
+
+    @Autowired
+    public MyOrdersService myOrdersService;
+
+    /**
+     * 用于验证用户和订单是否有关联关系，避免非法用户调用
+     * @return
+     */
+    public JSONResult checkUserOrder(String userId, String orderId) {
+        Orders order = myOrdersService.queryMyOrder(userId, orderId);
+        if (order == null) {
+            return JSONResult.errorMsg("Order not exist!");
+        }
+        return JSONResult.ok(order);
+    }
 }

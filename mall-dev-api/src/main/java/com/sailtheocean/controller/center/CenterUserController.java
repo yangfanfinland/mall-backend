@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Api(value = "User info", tags = {"API interface for user info"})
+@Api(value = "User center user info", tags = {"API interface for user center user info"})
 @RestController
 @RequestMapping("userInfo")
 public class CenterUserController extends BaseController {
