@@ -4,6 +4,7 @@ import com.sailtheocean.pojo.*;
 import com.sailtheocean.pojo.vo.CommentLevelCountsVO;
 import com.sailtheocean.pojo.vo.ItemInfoVO;
 import com.sailtheocean.pojo.vo.ShopcartVO;
+import com.sailtheocean.service.CategoryService;
 import com.sailtheocean.service.ItemService;
 import com.sailtheocean.utils.JSONResult;
 import com.sailtheocean.utils.PagedGridResult;
@@ -24,6 +25,9 @@ public class ItemsController extends BaseController {
     @Autowired
     private ItemService itemService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @ApiOperation(value = "Get product details", notes = "Get product details", httpMethod = "GET")
     @GetMapping("/info/{itemId}")
     public JSONResult info(
@@ -38,12 +42,14 @@ public class ItemsController extends BaseController {
         List<ItemsImg> itemsImgList = itemService.queryItemImgList(itemId);
         List<ItemsSpec> itemsSpecList = itemService.queryItemSpecList(itemId);
         ItemsParam itemsParam = itemService.queryItemParam(itemId);
+        List<Category> categoriesList = categoryService.getParentCatList(items.getCatId());
 
         ItemInfoVO itemInfoVO = new ItemInfoVO();
         itemInfoVO.setItem(items);
         itemInfoVO.setItemImgList(itemsImgList);
         itemInfoVO.setItemSpecList(itemsSpecList);
         itemInfoVO.setItemParams(itemsParam);
+        itemInfoVO.setParentCatList(categoriesList);
 
         return JSONResult.ok(itemInfoVO);
     }

@@ -1,9 +1,6 @@
 package com.sailtheocean.pojo.vo;
 
-import com.sailtheocean.pojo.Items;
-import com.sailtheocean.pojo.ItemsImg;
-import com.sailtheocean.pojo.ItemsParam;
-import com.sailtheocean.pojo.ItemsSpec;
+import com.sailtheocean.pojo.*;
 
 import java.util.List;
 
@@ -46,5 +43,15 @@ public class ItemInfoVO {
     private Items item;
     private List<ItemsImg> itemImgList;
     private List<ItemsSpec> itemSpecList;
+
+    public List<Category> getParentCatList() {
+        return parentCatList;
+    }
+
+    public void setParentCatList(List<Category> parentCatList) {
+        this.parentCatList = parentCatList;
+    }
+
     private ItemsParam itemParams;
+    private List<Category> parentCatList;
 }

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,5 +49,19 @@ public class CategoryServiceImpl implements CategoryService {
         Map<String, Object> map = new HashMap<>();
         map.put("rootCatId", rootCatId);
         return categoryMapperCustom.getSixNewItemsLazy(map);
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public List<Category> getParentCatList(Integer catId) {
+        List<Category> parentCatList = new ArrayList<>();
+        Category cat = categoryMapper.selectByPrimaryKey(catId);
+        parentCatList.add(cat);
+
+        while (cat.getFatherId() != 0) {
+            cat = categoryMapper.selectByPrimaryKey(cat.getFatherId());
+            parentCatList.add(cat);
+        }
+        return parentCatList;
     }
 }
